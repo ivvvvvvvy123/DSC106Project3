@@ -166,7 +166,23 @@
     <section>
       <h2>Design Rationale</h2>
       <p>[Write about your design choices: visual encodings, interactivity, color choices, layout, etc.]</p>
-      <p>[Discuss what alternatives were considered and why the final design was chosen]</p>
+      <ul>
+      <h2>Layout and Structure</h2>
+      <li>The data is split into two parts corresponding to 2 data types, ensuring clarity and transaprency and avoiding data overlay[Notes:We tried the version combining variables together but the data shows many noise].</li>
+      <li><strong>Independent Scale Controls:</strong>Users can choose between different light setup to see the change, and also choosing the female Estrus cycle to see special pattern. </li>
+
+      <h2>Visual Encodings and Color Choices</h2>
+      <li><strong>Dividing by gender on separate graphs:</strong>The graph distinguishes between female and male measurements on separate scales its own row.</li>
+      <li><strong>Color coding:</strong>For female we mainly use a warm dark red while male is dark blue, representing the cultural association. For different light phases, we choose soft yellow and gray to demonstrate light(warm sun color) and night conditions. For the Estrus cycle we choose subtle pink because it consonants with  estrual/menstrual cycle female unique for. </li>
+      
+      <h2>Interactive Visualization</h2>
+      <li><strong>Zoom in and out:</strong>Readers may either elongate or compress the graph horizontally based on the time ranges to choose the specifc time on the page.</li>
+      <li><strong>Dragging navigation:</strong>When you dragging the x-axis it can change the accuracy from 1000-2000 to 100-200, enable users see more details or a general view of overall trend.</li>
+      <li><strong>tooltip Support:</strong>Hovering on specifc data points reveal precise time and variables(either activity or temperature) values, either in female or male. This helps to inspect local details without a clusterred barrier.</li>
+      <li><strong>Control Click:</strong>Ctrl-click anywhere on the chart pops up a modal scatterplot of Temperature vs Activity for that 12-hour window (6 h before and after the click), allowing to see the deeper coorelation between temperature and activity.</li>
+      <h2>Alternatives and Reasons for Current Design</h2>
+      <li>[Discuss what alternatives were considered and why the final design was chosen]</li>
+      </ul>
     </section>
 
     <section>
