@@ -42,7 +42,8 @@ function drawPanel(sel,data,yLabel){
   const x = d3.scaleLinear().domain(d3.extent(data,d=>d.minute)).range([0,IW]);
   const yF = d3.scaleLinear().domain(isTemp?[d3.min(data,d=>d.female)-pad,d3.max(data,d=>d.female)+pad]:[0,d3.max(data,d=>d.female)]).nice().range([ROW,0]);
   const yM = d3.scaleLinear().domain(isTemp?[d3.min(data,d=>d.male)-pad,d3.max(data,d=>d.male)+pad]:[0,d3.max(data,d=>d.male)]).nice().range([ROW,0]);
-
+  
+  let currentTransform = d3.zoomIdentity;
   // highlight group
   const hl = g.append('g');
   highlight('light');
@@ -50,35 +51,37 @@ function drawPanel(sel,data,yLabel){
     hl.selectAll('rect').remove();
     const max = data[data.length-1].minute;
   
+    // ★ 用当前 transform 生成一个 zoom-aware 的 x 轴刻度
+    const zx = currentTransform.rescaleX(x);
+  
     if(mode === 'estrus'){
-      // Estrus 矩形也要带上 data-start 与 data-span
       for(let s = ESTRUS_START; s <= max; s += ESTRUS_PERIOD){
         hl.append('rect')
-          .attr('data-start', s)            // ← 新增
-          .attr('data-span', 1440)          // ← 新增
-          .attr('x',     x(s))
-          .attr('y',     0)
-          .attr('width', x(s + 1440) - x(s))
+          .attr('data-start', s)
+          .attr('data-span', 1440)
+          // ← 用 zx 而非原始 x
+          .attr('x',      zx(s))
+          .attr('y',      0)
+          .attr('width',  zx(s + 1440) - zx(s))
           .attr('height', ROW)
-          .attr('fill',  COLORS.estrus);
+          .attr('fill',   COLORS.estrus);
       }
-      return;
-    }
-  
-    // light / dark 分支同样加 data-span
-    const fill = mode === 'light' ? COLORS.light : COLORS.dark;
-    const off  = mode === 'light' ? CYCLE : 0;
-    for(let s = off; s <= max; s += CYCLE*2){
-      hl.append('rect')
-        .attr('data-start', s)              // ← 新增
-        .attr('data-span',  CYCLE)          // ← 新增
-        .attr('x',          x(s))
-        .attr('y',          0)
-        .attr('width',      x(s + CYCLE) - x(s))
-        .attr('height',     IH)
-        .attr('fill',       fill);
+    } else {
+      const fill = mode==='light'?COLORS.light:COLORS.dark;
+      const off  = mode==='light'?CYCLE:0;
+      for(let s = off; s <= max; s += CYCLE*2){
+        hl.append('rect')
+          .attr('data-start', s)
+          .attr('data-span',  CYCLE)
+          .attr('x',          zx(s))
+          .attr('y',          0)
+          .attr('width',      zx(s + CYCLE) - zx(s))
+          .attr('height',     IH)
+          .attr('fill',       fill);
+      }
     }
   }
+  
   // female row
   const fGrp = g.append('g');
   fGrp.append('path').datum(data).attr('fill','none').attr('stroke',COLORS.f).attr('stroke-width',1.2).attr('d',d3.line().x(d=>x(d.minute)).y(d=>yF(d.female)));
@@ -96,15 +99,29 @@ function drawPanel(sel,data,yLabel){
   const xAxis = g.append('g').attr('transform',`translate(0,${IH})`).call(d3.axisBottom(x).ticks(10));
   xAxis.append('text').attr('x',IW/2).attr('y',32).attr('fill','#000').attr('text-anchor','middle').text('Minutes (0 = start)');
 
+  
   // zoom
-  svg.call(d3.zoom().scaleExtent([1,20]).translateExtent([[0,0],[IW,IH]]).on('zoom',ev=>{
-    const zx = ev.transform.rescaleX(x);
-    xAxis.call(d3.axisBottom(zx).ticks(10));
-    fGrp.select('path').attr('d',d3.line().x(d=>zx(d.minute)).y(d=>yF(d.female)));
-    mGrp.select('path').attr('d',d3.line().x(d=>zx(d.minute)).y(d=>yM(d.male)));
-    hl.selectAll('rect').attr('x',function(){const s=+this.dataset.start||+this.getAttribute('x');return zx(s);}).attr('width',function(){const s=+this.dataset.start||+this.getAttribute('x');return zx(s+CYCLE)-zx(s);});
-  })).on('dblclick.zoom',null);
-  svg.on('dblclick',()=>svg.transition().duration(400).call(d3.zoom().transform,d3.zoomIdentity));
+  
+  svg.call(d3.zoom()
+  .scaleExtent([1,20])
+  .translateExtent([[0,0],[IW,IH]])
+  .on('zoom', ev=>{
+      currentTransform = ev.transform; 
+      const zx = ev.transform.rescaleX(x);
+      xAxis.call(d3.axisBottom(zx).ticks(10));
+      fGrp.select('path').attr('d', d3.line().x(d=>zx(d.minute)).y(d=>yF(d.female)));
+      mGrp.select('path').attr('d', d3.line().x(d=>zx(d.minute)).y(d=>yM(d.male)));
+      hl.selectAll('rect')
+        .attr('x', function(){
+          const s = +this.dataset.start || +this.getAttribute('x');
+          return zx(s);
+        })
+        .attr('width', function(){
+          const s = +this.dataset.start || +this.getAttribute('x');
+          return zx(s + CYCLE) - zx(s);
+        });
+    })
+    ).on('dblclick.zoom',null);
   
 
   // tooltip & hover

@@ -97,6 +97,14 @@
     .btn:hover{ background:#e6f0ff }
     .btn.active{ background:#bfdcff }
 
+    .scatter-hint {
+      font-size: 0.85rem;
+      color: #666;
+      margin-top: 4px;
+      text-align: right;
+    }
+
+
 
     @media (max-width: 600px) {
       body {
@@ -144,6 +152,9 @@
             <button class="btn"        data-mode="dark"   data-target="activity">Highlight Dark</button>
             <button class="btn"        data-mode="estrus" data-target="activity">Highlight Estrus (♀)</button>
           </div>
+          <p class="scatter-hint">
+            <em>Hold Ctrl (Windows/Linux) or ⌘ (Mac) and click on the chart to open the scatter plot.</em>
+          </p>
           <svg id="activity" width="960" height="420"></svg>
         </div>
         
@@ -154,6 +165,9 @@
             <button class="btn"        data-mode="dark"   data-target="temp">Highlight Dark</button>
             <button class="btn"        data-mode="estrus" data-target="temp">Highlight Estrus (♀)</button>
           </div>
+          <p class="scatter-hint">
+            <em>Hold Ctrl (Windows/Linux) or ⌘ (Mac) and click on the chart to open the scatter plot.</em>
+          </p>
           <svg id="temp" width="960" height="420"></svg>
         </div>
         <div id="tooltip" class="tooltip" style="display:none"></div>
