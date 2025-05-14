@@ -101,6 +101,45 @@ function drawPanel(sel,data,yLabel){
   // x-axis
   const xAxis = g.append('g').attr('transform',`translate(0,${IH})`).call(d3.axisBottom(x).ticks(10));
   xAxis.append('text').attr('x',IW/2).attr('y',32).attr('fill','#000').attr('text-anchor','middle').text('Minutes (0 = start)');
+  // Independent Scale Toggle Logic for Each Panel
+document.querySelectorAll('.scale-controls').forEach(scaleGroup => {
+  const targetPanel = scaleGroup.dataset.target;
+  const panel = d3.select(`#${targetPanel}`);
+  const xAxis = panel.select('.x-axis');
+  const xAxisLabel = panel.select('.x-axis-label');
+  const femalePath = panel.select('.female-path');
+  const malePath = panel.select('.male-path');
+
+  scaleGroup.querySelectorAll('.btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+          // Set active button within this group
+          scaleGroup.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+          e.target.classList.add('active');
+
+          // Update the x-axis scale
+          const scale = e.target.dataset.scale;
+          const x = scale === 'days'
+              ? d3.scaleLinear().domain([0, 14]).range([0, IW])
+              : d3.scaleLinear().domain([0, 20160]).range([0, IW]);
+
+          // Update the x-axis ticks and labels
+          xAxis.call(d3.axisBottom(x).ticks(scale === 'days' ? 14 : 20).tickFormat(d => 
+              scale === 'days' ? `Day ${d + 1}` : d.toLocaleString()
+          ));
+          xAxisLabel.text(scale === 'days' ? 'Days (1-14)' : 'Minutes (0 = start)');
+
+          // Update the paths for female and male
+          femalePath.attr('d', d3.line()
+              .x(d => x(scale === 'days' ? d.minute / 1440 : d.minute))
+              .y(d => d.female)
+          );
+          malePath.attr('d', d3.line()
+              .x(d => x(scale === 'days' ? d.minute / 1440 : d.minute))
+              .y(d => d.male)
+          );
+      });
+  });
+});
 
   
   // zoom
