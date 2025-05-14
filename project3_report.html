@@ -202,10 +202,10 @@
     <section class="visualization" id="interactive-viz">
       <h2>Interactive Visualization</h2>
       <p class="iv-help">
-        <b>Zoom / pan:</b> scroll&nbsp;or pinch horizontally to zoom, drag to pan &nbsp;|&nbsp;
-        <b>Reset:</b> double‑click inside a plot &nbsp;|&nbsp;
-        <b>Highlight:</b> use the buttons to toggle <i>Light</i>, <i>Dark</i>, or <i>Estrus</i> bands &nbsp;|&nbsp;
-        <b>Details:</b> hover for a tooltip with exact minute &amp; mean values &nbsp;|&nbsp;
+        <b>Zoom / pan:</b> scroll&nbsp;or pinch horizontally to zoom, drag to pan<br>
+        <b>Reset:</b> double‑click inside a plot<br>
+        <b>Highlight:</b> use the buttons to toggle <i>Light</i>, <i>Dark</i>, or <i>Estrus</i> bands<br>
+        <b>Details:</b> hover for a tooltip with exact minute &amp; mean values <br>
         <b>Scatter plot:</b> hold <kbd>Ctrl</kbd> (Win/Linux) or <kbd>⌘</kbd> (Mac) and click to open a 12‑h Temperature vs Activity view
       </p>
       
@@ -279,12 +279,45 @@
 
     <section>
       <h2>Development Process</h2>
-      <p>[Describe how your team developed the visualization, including tool choices, data prep, and iterations]</p>
-      <p>
-        <strong>Team Roles:</strong><br>
-        [List which team member did what. Example: A built filters, B handled data cleaning, etc.]
-      </p>
-      <p>[Roughly how many total people-hours did the project take?]</p>
+    </p>
+
+    <h3>Dataset</h3>
+    <ul>
+      <li>
+        <b>Mouse activity &amp; temperature (raw minutes)</b> &nbsp;–&nbsp;
+        <a href="https://docs.google.com/spreadsheets/d/1RXL_oUa1IYxnqfCW-9duz3M83wPlki4y/edit?usp=sharing"
+          target="_blank" rel="noopener">
+          Google Sheets (UCSD Student read‑only)
+        </a>
+      </li>
+    </ul>
+
+
+    <h3>Tool Choices</h3>
+    <ul>
+      <li><b>Python + Pandas</b> for initial aggregation (mean minute‑by‑minute across animals).</li>
+      <li><b>D3 </b> for the interactive SVG rendering — chosen for its built‑in zoom, scales, and flexible event model.</li>
+      <li><b>GitHub Projects</b> Using GitHub to track tasks, and VS Code Live Share for pair-programming sessions.</li>
+    </ul>
+
+    <h3>Data Cleaning</h3>
+
+
+    <h3>Iterations</h3>
+    <ul>
+      <li><b>v0</b>: static visualization → interactive visualization.</li>
+      <li><b>v1</b>: added D3 zoom/pan, basic buttons → feedback: “pink estrus bands overlap light bands”.</li>
+      <li><b>v2</b>: mutually exclusive toggles, tooltip, scatter modal (current).</li>
+    </ul>
+
+    <h3>Team Roles</h3>
+    <ul>
+      <li><b>Wenxi Li</b> — </li>
+      <li><b>Yixuan Xin</b> — </li>
+      <li><b>Juntong Ye</b> — </li>
+      <li><b>Sirui Zhang</b> —</li>
+    </ul>
+    
     </section>
 
     <section>
