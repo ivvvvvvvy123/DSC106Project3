@@ -14,105 +14,157 @@
       --border-color: #ddd;
     }
 
-    body {
-      font-family: "Segoe UI", system-ui, sans-serif;
-      background: var(--bg-color);
-      color: var(--text-color);
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 2rem 1.5rem;
-      line-height: 1.7;
+    /* ==== overall ================================================== */
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    background:#f6f6f8;
+    color:#333;
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;          
+    gap:32px;
+  }
+
+  
+  main{
+    width:100%;
+    max-width:1000px;
+    padding:0 24px 64px;
+    display:flex;
+    flex-direction:column;
+    gap:32px;
+  }
+
+  /* ==== titke ==================================================== */
+  h1{
+    font-size:2.4rem;
+    margin:0;
+    text-align:center;
+    color:#222;
+  }
+  h2{
+    font-size:1.3rem;
+    margin:0 0 .75rem;
+    font-weight:600;
+  }
+  h3{
+    font-size:1.1rem;
+    margin:.3rem 0;
+    color:#0077aa;
+    font-weight:600;
+  }
+
+  /* ─── Header layout ─────────────────────────── */
+    header{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:12px;                 
+    padding-top:32px;
     }
 
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.2rem;
-      color: var(--header-color);
-    }
+    header .title      { font-size:3rem;  font-weight:700; color:#222; margin:0; }
+    header .subtitle   { font-size:1.1rem;font-weight:600; color:#0067b9; text-align:center; margin:0 0 6px; line-height:1.4;}
+    header .meta-group { text-align:center; line-height:1.5; font-size:.95rem; color:#444; }
+    .meta-group strong { color:#111; }     
+    .meta-group span   { display:block; }
 
-    h2 {
-      font-size: 1.4rem;
-      margin-top: 2.5rem;
-      margin-bottom: 0.75rem;
-      border-bottom: 2px solid var(--border-color);
-      padding-bottom: 0.3rem;
-    }
+  /* ==== section =============================================== */
+  section{
+    background:#fff;
+    border-radius:12px;
+    box-shadow:0 2px 6px rgba(0,0,0,.06);
+    padding:24px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
 
-    h3 {
-      font-size: 1.2rem;
-      margin-bottom: 0.3rem;
-      color: var(--accent);
-    }
+  .visualization{position:relative;background:#f8fcff}
+  .visualization::before{
+    content:'';
+    position:absolute;left:-6px;top:0;bottom:0;width:6px;
+    background:#0077aa;border-radius:12px 0 0 12px;
+  }
 
-    header {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
+  /* button */
+  .controls{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+  .btn{
+    border:1px solid #6c8ab5;
+    background:#f8fbff;
+    border-radius:4px;
+    padding:4px 10px;
+    cursor:pointer;
+    font-size:.84rem;
+  }
+  .btn:hover{background:#e8f2ff}
+  .btn.active{background:#cfe2ff;font-weight:600}
 
-    .team-info {
-      font-size: 0.95rem;
-      margin-top: 0.8rem;
-      color: #555;
-    }
+  .panel svg{width:100%;height:auto;border:1px solid #ddd;border-radius:4px;background:#fff}
 
-    section {
-      background: var(--card-bg);
-      padding: 1.5rem;
-      border-radius: 0.75rem;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-      margin-bottom: 1.5rem;
-      border: 1px solid var(--border-color);
-    }
+  /* hint */
+  .scatter-hint{font-size:.8rem;color:#666;margin:4px 0;text-align:center}
 
-    .visualization {
-      background: #f8fcff;
-      border-left: 6px solid var(--accent);
-    }
+  dialog{border:none;border-radius:10px;padding:20px;max-width:440px}
+  dialog::backdrop{background:rgba(0,0,0,.35)}
+  #scatter-close{float:right;background:#e33;color:#fff;border:none;border-radius:3px;padding:2px 6px;cursor:pointer}
 
-    #chart-container {
-      margin-top: 1rem;
-      min-height: 300px;
-      background: #fafafa;
-      border: 1px dashed #ccc;
-      border-radius: 0.5rem;
-      padding: 1rem;
-      text-align: center;
-    }
+  /* ==== footer ====================================================== */
+  footer{
+    width:100%;
+    text-align:center;
+    font-size:.8rem;
+    color:#777;
+    padding-top:24px;
+    border-top:1px solid #ddd;
+  }
 
-    figcaption {
-      font-size: 0.85rem;
-      color: #666;
-      margin-top: 0.3rem;
-    }
+  /* ─── 让层次分明、缩进统一 ─── */
+  .rationale h3{
+    font-size:1.05rem;
+    margin:16px 0 6px;
+    font-weight:700;
+  }
 
-    footer {
-      margin-top: 4rem;
-      text-align: center;
-      font-size: 0.9rem;
-      color: #888;
-      border-top: 1px solid #ddd;
-      padding-top: 1.5rem;
-    }
+  .rationale ul{
+    list-style-type:disc;      /* 普通圆点 */
+    margin:0 0 0 1.2rem;       /* 左缩进 */
+    padding:0;
+  }
 
-    .btn:hover{ background:#e6f0ff }
-    .btn.active{ background:#bfdcff }
+  .rationale li{
+    margin-bottom:8px;
+    line-height:1.6;
+  }
 
-    .scatter-hint {
-      font-size: 0.85rem;
-      color: #666;
-      margin-top: 4px;
-      text-align: center;
-    }
+  .rationale li::marker{color:#0077aa;} 
 
+  .iv-help{
+    font-size:.9rem;
+    color:#444;
+    margin:-4px 0 14px;   
+    line-height:1.45;
+  }
+  .iv-help b{color:#0077aa}
+  .iv-help kbd{
+    font-family:inherit;
+    background:#eef4ff;
+    border:1px solid #b7d0ff;
+    border-radius:3px;
+    padding:1px 4px;
+    font-size:.85em;
+  }
 
+  @media(max-width:480px){
+    body{gap:24px}
+    main{gap:24px;padding:0 16px 48px}
+    h1{font-size:1.9rem}
+    h2{font-size:1.1rem}
+    .btn{font-size:.78rem}
+  }
 
-
-
-    @media (max-width: 600px) {
-      body {
-        padding: 1rem;
-      }
-    }
   </style>
   <style>
     body{font-family:system-ui,sans-serif;margin:24px;background:#fafafa}
@@ -132,19 +184,31 @@
 
 <body>
   <header>
-    <h1>Mice in Rhythm</h1>
-    <h3>How do circadian rhythms and estrus cycles differently influence activity and temperature patterns in male and female mice?</h3>
-    <div class="team-info">
-      <strong>Team Name: 404 Found</strong><br>
-      <strong>Team Members:</strong> Wenxi Li, Yixuan Xin, Juntong Ye, Sirui Zhang<br>
-      <strong>UCSD Emails:</strong> wel055@ucsd.edu, yixin@ucsd.edu, juy037@ucsd.edu, siz012@ucsd.edu
+    <h1 class="title">Mice in Rhythm</h1>
+  
+    <p class="subtitle">
+      How do circadian rhythms and estrus cycles differently influence<br>
+      activity and temperature patterns in male and female mice?
+    </p>
+  
+    <div class="meta-group">
+      <span><strong>Team Name:</strong> 404 Found</span>
+      <span><strong>Team Members:</strong> Wenxi Li, Yixuan Xin, Juntong Ye, Sirui Zhang</span>
+      <span><strong>UCSD Emails:</strong> wel055@ucsd.edu · yixin@ucsd.edu · juy037@ucsd.edu · siz012@ucsd.edu</span>
     </div>
   </header>
 
   <main>
     <section class="visualization" id="interactive-viz">
       <h2>Interactive Visualization</h2>
-      <p>[Brief description of how to interact with the visualization]</p>
+      <p class="iv-help">
+        <b>Zoom / pan:</b> scroll&nbsp;or pinch horizontally to zoom, drag to pan &nbsp;|&nbsp;
+        <b>Reset:</b> double‑click inside a plot &nbsp;|&nbsp;
+        <b>Highlight:</b> use the buttons to toggle <i>Light</i>, <i>Dark</i>, or <i>Estrus</i> bands &nbsp;|&nbsp;
+        <b>Details:</b> hover for a tooltip with exact minute &amp; mean values &nbsp;|&nbsp;
+        <b>Scatter plot:</b> hold <kbd>Ctrl</kbd> (Win/Linux) or <kbd>⌘</kbd> (Mac) and click to open a 12‑h Temperature vs Activity view
+      </p>
+      
       <div id="chart-container">
         <!-- pasted from newvis.html: -->
         <div class="panel" id="activity-panel">
@@ -154,9 +218,7 @@
             <button class="btn"        data-mode="dark"   data-target="activity">Highlight Dark</button>
             <button class="btn"        data-mode="estrus" data-target="activity">Highlight Estrus (♀)</button>
           </div>
-          <p class="scatter-hint">
-          <em>Hold Ctrl (Windows/Linux) or ⌘ (Mac) and click on the chart to open the scatter plot.</em>
-          </p>
+   
           <svg id="activity" width="960" height="420"></svg>
         </div>
         
@@ -167,9 +229,6 @@
             <button class="btn"        data-mode="dark"   data-target="temp">Highlight Dark</button>
             <button class="btn"        data-mode="estrus" data-target="temp">Highlight Estrus (♀)</button>
           </div>
-          <p class="scatter-hint">
-            <em>Hold Ctrl (Windows/Linux) or ⌘ (Mac) and click on the chart to open the scatter plot.</em>
-          </p>
           <svg id="temp" width="960" height="420"></svg>
         </div>
         <div id="tooltip" class="tooltip" style="display:none"></div>
@@ -183,27 +242,40 @@
       </div>
     </section>
 
-    <section>
-      <h2>Design Rationale</h2>
-      <p>[Write about your design choices: visual encodings, interactivity, color choices, layout, etc.]</p>
+    <section class="rationale">
+      <h2>Design Rationale</h2>
+    
+      <!-- ── 1. Layout & Structure ─────────────────────── -->
+      <h3>Layout and Structure</h3>
       <ul>
-      <h2>Layout and Structure</h2>
-      <li>The data is split into two parts corresponding to 2 data types, ensuring clarity and transaprency and avoiding data overlay[Notes:We tried the version combining variables together but the data shows many noise].</li>
-      <li><strong>Independent Scale Controls:</strong>Users can choose between different light setup to see the change, and also choosing the female Estrus cycle to see special pattern. </li>
-
-      <h2>Visual Encodings and Color Choices</h2>
-      <li><strong>Dividing by gender on separate graphs:</strong>The graph distinguishes between female and male measurements on separate scales its own row.</li>
-      <li><strong>Color coding:</strong>For female we mainly use a warm dark red while male is dark blue, representing the cultural association. For different light phases, we choose soft yellow and gray to demonstrate light(warm sun color) and night conditions. For the Estrus cycle we choose subtle pink because it consonants with  estrual/menstrual cycle female unique for. </li>
-      
-      <h2>Interactive Visualization</h2>
-      <li><strong>Zoom in and out:</strong>Readers may either elongate or compress the graph horizontally based on the time ranges to choose the specifc time on the page.</li>
-      <li><strong>Dragging navigation:</strong>When you dragging the x-axis it can change the accuracy from 1000-2000 to 100-200, enable users see more details or a general view of overall trend.</li>
-      <li><strong>tooltip Support:</strong>Hovering on specifc data points reveal precise time and variables(either activity or temperature) values, either in female or male. This helps to inspect local details without a clusterred barrier.</li>
-      <li><strong>Control Click:</strong>Ctrl-click anywhere on the chart pops up a modal scatterplot of Temperature vs Activity for that 12-hour window (6 h before and after the click), allowing to see the deeper coorelation between temperature and activity.</li>
-      <h2>Alternatives and Reasons for Current Design</h2>
-      <li>[Discuss what alternatives were considered and why the final design was chosen]</li>
+        <li><strong>Split by data type (2 panels)</strong> – prevents over‑plotting and keeps each metric interpretable. (We tried overlaying variables; it was too noisy.)</li>
+        <li><strong>Independent scale controls</strong> – users can toggle light/dark vs estrus bands separately for clearer comparisons.</li>
       </ul>
+    
+      <!-- ── 2. Visual Encoding & Colour ───────────────── -->
+      <h3>Visual Encodings and Color Choices</h3>
+      <ul>
+        <li><strong>Separate rows for female vs male</strong> – avoids mixing scales, highlights sex‑specific rhythms.</li>
+        <li><strong>Color palette</strong> – warm red (♀), deep teal (♂); soft yellow / gray for light phases; muted pink for estrus windows.</li>
+      </ul>
+    
+      <!-- ── 3. Interactivity ──────────────────────────── -->
+      <h3>Interactive Visualization</h3>
+      <ul>
+        <li><strong>Zoom in / out:</strong> User can stretch or compress the timeline to focus on any range.</li>
+        <li><strong>Dragging navigation:</strong> Drag along the x‑axis to slide the window (e.g.&nbsp;1000–2000 → 100–200) for overview vs detail.</li>
+        <li><strong>Tooltip support:</strong> Hover on specific data points to reveal the precise minute and mean value for each sex—detail without clutter.</li>
+        <li><strong>Control Click:</strong> Ctrl‑click (or ⌘‑click) anywhere on the chart pops up a modal scatterplot of Temperature vs Activity for that 12‑hour window (6 h before & after), showing deeper correlation.</li>
+      </ul>
+    
+      <!-- ── 4. Alternatives ───────────────────────────── -->
+      <h3>Alternatives and Reasons for Current Design</h3>
+      <p>
+        [Discuss what alternatives were considered and why the final design was chosen]
+      </p>
     </section>
+    
+
 
     <section>
       <h2>Development Process</h2>
@@ -222,7 +294,7 @@
     </section>
 
     <footer>
-      <p>© Spring 2025 | DSC 106 - UC San Diego | Team Mice in Rhythm</p>
+      <p>© Spring 2025 | DSC 106 - UC San Diego | Team 404 Found</p>
     </footer>
   </main>
 
