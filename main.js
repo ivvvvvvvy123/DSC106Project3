@@ -1,5 +1,5 @@
 // ---------- CONSTANTS ---------------------------------------------------
-const CYCLE = 720;                    // 12 h in minutes
+const CYCLE = 720;                    // 12 h in minutes
 const W = 960, H = 420,
       M = {top:20,right:20,bottom:40,left:50},
       IW = W-M.left-M.right,
@@ -283,12 +283,12 @@ svg.append('text')
 }
 
 const lineF = d3.line()
-    .curve(d3.curveMonotoneX)     // ★ 平滑
+    .curve(d3.curveMonotoneX)     
     .x(d => x(d.minute))
     .y(d => yF(d.female));
 
 const lineM = d3.line()
-    .curve(d3.curveMonotoneX)     // ★ 平滑
+    .curve(d3.curveMonotoneX)     
     .x(d => x(d.minute))
     .y(d => yM(d.male));
 
