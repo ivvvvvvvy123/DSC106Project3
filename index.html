@@ -290,11 +290,11 @@
       <h3>Alternatives and Reasons for Current Design</h3>
       <p>
         Our “alternatives” discussion focused on design pattern we prototyped<br>
-        (1) independent small‑multiple panels for each sex and metric<br>
-        (2) full‑width heat maps that encode time on the x‑axis and day on the y‑axis<br>
-        (3) stacked area charts to show cumulative activity.<br>
-        (4) we tried to change the time interval but it has accomadation issue with other part and also make the data messy, so instead we choose to only put buttons on.
-        <br>
+        <li>Independent small‑multiple panels for each sex and metric</li>
+        <li>Full‑width heat maps that encode time on the x‑axis and day on the y‑axis</li>
+        <li>Stacked area charts to show cumulative activity.</li> 
+        <li>Tried to change the time interval but it has accomadation issue with other part and also make the data messy, we successfully fixed the multiple options choose(combining days+light conditions) but not showing the days on axis. 
+          so we choose to delete it and fix the bug in the future.</li>
         Small multiples made direct comparison tedious, heat maps obscured minute‑level peaks, and stacked areas exaggerated between‑sex differences.      Usability tests with checkpoint showed that a single, shared time axis with layered line tracks, augmented by mutually‑exclusive toggle buttons and D3’s brush to enabled zoom—gave the clearest view of circadian patterns while meeting the interactive requirements, so we adopted that layout as our final choice.
       </p >
     </section>
