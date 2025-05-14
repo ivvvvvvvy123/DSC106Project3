@@ -54,7 +54,6 @@ function drawPanel(sel,data,yLabel){
     hl.selectAll('rect').remove();
     const max = data[data.length-1].minute;
   
-    // ★ 用当前 transform 生成一个 zoom-aware 的 x 轴刻度
     const zx = currentTransform.rescaleX(x);
   
     if(mode === 'estrus'){
@@ -62,7 +61,6 @@ function drawPanel(sel,data,yLabel){
         hl.append('rect')
           .attr('data-start', s)
           .attr('data-span', 1440)
-          // ← 用 zx 而非原始 x
           .attr('x',      zx(s))
           .attr('y',      0)
           .attr('width',  zx(s + 1440) - zx(s))
