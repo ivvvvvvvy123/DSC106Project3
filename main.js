@@ -33,7 +33,10 @@ function avg(obj){let s=0,c=0;for(const k in obj){const v=+obj[k];if(!isNaN(v)){
 // ---------- DRAW PANEL --------------------------------------------------
 function drawPanel(sel,data,yLabel){
   const id = sel.slice(1);
-  const svg = d3.select(sel).attr('viewBox',`0 0 ${W} ${H}`);
+  const svg = d3.select(sel)
+    .attr('width', '100%')
+    .attr('height', H)
+    .attr('viewBox', `0 0 ${W} ${H}`);
   const g   = svg.append('g').attr('transform',`translate(${M.left},${M.top})`);
 
   // scales
