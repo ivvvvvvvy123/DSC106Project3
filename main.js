@@ -48,21 +48,37 @@ function drawPanel(sel,data,yLabel){
   highlight('light');
   function highlight(mode){
     hl.selectAll('rect').remove();
-    if(mode==='estrus'){
-      const max = data[data.length-1].minute;
-      for(let s=ESTRUS_START;s<=max;s+=ESTRUS_PERIOD){
-        hl.append('rect').attr('x',x(s)).attr('y',0).attr('width',x(s+1440)-x(s)).attr('height',ROW).attr('fill',COLORS.estrus);
+    const max = data[data.length-1].minute;
+  
+    if(mode === 'estrus'){
+      // Estrus 矩形也要带上 data-start 与 data-span
+      for(let s = ESTRUS_START; s <= max; s += ESTRUS_PERIOD){
+        hl.append('rect')
+          .attr('data-start', s)            // ← 新增
+          .attr('data-span', 1440)          // ← 新增
+          .attr('x',     x(s))
+          .attr('y',     0)
+          .attr('width', x(s + 1440) - x(s))
+          .attr('height', ROW)
+          .attr('fill',  COLORS.estrus);
       }
       return;
     }
-    const fill = mode==='light'?COLORS.light:COLORS.dark;
-    const off  = mode==='light'?CYCLE:0;
-    const max  = data[data.length-1].minute;
-    for(let s=off;s<=max;s+=CYCLE*2){
-      hl.append('rect').attr('data-start',s).attr('x',x(s)).attr('y',0).attr('width',x(s+CYCLE)-x(s)).attr('height',IH).attr('fill',fill);
+  
+    // light / dark 分支同样加 data-span
+    const fill = mode === 'light' ? COLORS.light : COLORS.dark;
+    const off  = mode === 'light' ? CYCLE : 0;
+    for(let s = off; s <= max; s += CYCLE*2){
+      hl.append('rect')
+        .attr('data-start', s)              // ← 新增
+        .attr('data-span',  CYCLE)          // ← 新增
+        .attr('x',          x(s))
+        .attr('y',          0)
+        .attr('width',      x(s + CYCLE) - x(s))
+        .attr('height',     IH)
+        .attr('fill',       fill);
     }
   }
-
   // female row
   const fGrp = g.append('g');
   fGrp.append('path').datum(data).attr('fill','none').attr('stroke',COLORS.f).attr('stroke-width',1.2).attr('d',d3.line().x(d=>x(d.minute)).y(d=>yF(d.female)));
@@ -89,6 +105,7 @@ function drawPanel(sel,data,yLabel){
     hl.selectAll('rect').attr('x',function(){const s=+this.dataset.start||+this.getAttribute('x');return zx(s);}).attr('width',function(){const s=+this.dataset.start||+this.getAttribute('x');return zx(s+CYCLE)-zx(s);});
   })).on('dblclick.zoom',null);
   svg.on('dblclick',()=>svg.transition().duration(400).call(d3.zoom().transform,d3.zoomIdentity));
+  
 
   // tooltip & hover
   // ── tooltip vertical bar ───────────────────────────────────────────
@@ -118,7 +135,7 @@ const overlay = g.append('rect')
         const [mx] = d3.pointer(event, overlay.node());
         const min  = Math.round(x.invert(mx));
         const sex  = (d3.pointer(event, overlay.node())[1] < ROW) ? 'Female' : 'Male';
-        showScatter(min - 360, min + 360);
+        showScatter(min - 360, min + 360, sex);
     });
 
   function handleMove(event) {
@@ -162,7 +179,7 @@ function showScatter(minStart, minEnd, sex){
                   }));
     // Add scatter legends
     d3.select('#scatter-title')
-        .text(`Temperature vs Activity (12-h window) – ${sex}`);
+        .text(`Temperature vs Activity (12-h window) - ${sex}`);
 
   // simple 360 × 360 chart inside the 420 × 420 svg
   const M = {top:20,right:20,bottom:40,left:50},
@@ -205,6 +222,17 @@ svg.append('text')
 
   dlg.showModal();
 }
+
+const lineF = d3.line()
+    .curve(d3.curveMonotoneX)     // ★ 平滑
+    .x(d => x(d.minute))
+    .y(d => yF(d.female));
+
+const lineM = d3.line()
+    .curve(d3.curveMonotoneX)     // ★ 平滑
+    .x(d => x(d.minute))
+    .y(d => yM(d.male));
+
 
 /* close button */
 document.getElementById('scatter-close')
